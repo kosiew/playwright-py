@@ -26,7 +26,7 @@ async def screenshots():
         await browser.close()
 
 
-async def getWeatherData():
+async def get_weather_data():
     async with async_playwright() as p:
         browser, page = await get_browser_page(p)
 
@@ -46,5 +46,5 @@ async def getWeatherData():
 
 
 # To run the async function
-asyncio.run(getWeatherData())
+asyncio.run(get_weather_data())
 asyncio.run(screenshots())
