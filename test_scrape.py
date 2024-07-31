@@ -45,6 +45,21 @@ async def get_weather_data():
         await browser.close()
 
 
+async def read_um_latest_headline():
+    url = "https://um.edu.my/"
+    locator = "xpath=/html/body/div[3]/div/div[2]/div/div[6]/div[2]/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/div[2]/h3"
+    locator = ".gdlr-core-blog-grid .gdlr-core-blog-title.gdlr-core-skin-title"
+    async with async_playwright() as p:
+        browser, page = await get_browser_page(p)
+
+        await page.goto(url)
+
+        latest_headline = await page.locator(locator).all_inner_texts()
+
+        print(latest_headline)
+
+        await browser.close()
+
+
 # To run the async function
-asyncio.run(get_weather_data())
-asyncio.run(screenshots())
+asyncio.run(read_um_latest_headline())
