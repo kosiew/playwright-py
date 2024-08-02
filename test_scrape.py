@@ -8,7 +8,7 @@ url = "https://www.klmoneychanger.com/compare-rates?n=gbp"
 
 
 async def get_browser_page(p):
-    browser = await p.chromium.launch()
+    browser = await p.chromium.launch(headless=True)
     context = await browser.new_context()
     page = await context.new_page()
     return browser, page
@@ -61,5 +61,27 @@ async def read_um_latest_headline():
         await browser.close()
 
 
-# To run the async function
-asyncio.run(read_um_latest_headline())
+async def scrape_kamalahq():
+    url = "https://x.com/KamalaHQ"
+    locator = "article"
+    async with async_playwright() as p:
+        browser, page = await get_browser_page(p)
+
+        await page.goto(url)
+        await page.wait_for_load_state("networkidle")
+
+        await page.wait_for_selector(locator)
+
+        latest_headline = await page.locator(locator).all_inner_texts()
+
+        print(latest_headline)
+
+        await browser.close()
+
+
+def main():
+    # To run the async function
+    asyncio.run(scrape_kamalahq())
+
+
+main()
